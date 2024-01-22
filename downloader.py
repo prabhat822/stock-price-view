@@ -1,5 +1,6 @@
 import requests
 import shutil
+import os
 
 
 def date_to_url(ddmmyy):
@@ -20,5 +21,10 @@ def download_by_date(ddmmyy):
         shutil.unpack_archive(f"files/zips/EQ{ddmmyy}.zip", f"files/csvs/")
     except:
         print("Unzip Failed")
+    
+    try:
+        os.remove(f"files/zips/EQ{ddmmyy}.zip") # Cleaning downloaded zips
+    except:
+        print("Deletion Error")
 
-download_by_date("130124")
+download_by_date(12_01_24)
