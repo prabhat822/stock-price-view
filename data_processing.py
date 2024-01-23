@@ -27,4 +27,13 @@ def download_by_date(ddmmyy):
     except:
         print("Deletion Error")
 
-download_by_date(12_01_24)
+def data_exists(ddmmyy):
+    return os.path.exists(f"files/csvs/EQ{ddmmyy}.csv")
+
+def generate_dir():
+    if not os.path.exists("files"):
+        os.mkdir("files")
+    if not os.path.exists("files/zips"):
+        os.mkdir("files/zips")
+    if not os.path.exists("files/csvs"):
+        os.mkdir("files/csvs")
