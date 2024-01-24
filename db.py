@@ -26,14 +26,13 @@ def store_data(ddmmyy):
     collection = db[f"EQ{ddmmyy}"]
     
     collection.insert_many(datas)
-    
-    client.close()
 
 def remove_data(ddmmyy):
     collection = db[f"EQ{ddmmyy}"]
     
     collection.drop()
-    
+
+def close_mongo():
     client.close()
 
 
