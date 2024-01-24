@@ -32,6 +32,11 @@ def remove_data(ddmmyy):
     
     collection.drop()
 
+def data_exists_db(ddmmyy):
+    collection = db[f"EQ{ddmmyy}"]
+    
+    return collection.count_documents({}) > 0
+
 def close_mongo():
     client.close()
 
