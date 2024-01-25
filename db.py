@@ -69,6 +69,18 @@ def update_metadata_one(data, ddmmyy):
             pnl = ((stock["latest_close"] - data["close"]) / data["close"]) * 100
             metadata_collection.update_one({"code": CODE}, {"$set": {"first": ddmmyy, "first_close": data["close"], "pnl": pnl}})
 
+def get_top_k(k):
+    top_ks = metadata_collection.find().sort("pnl", -1).limit(k)
+    tks = []
+    for ki in top_ks:
+        tki = {
+            "code": ki["code"],
+            "name": ki["name"],
+            "pnl": ki["pnl"]
+        }
+        tks.append(tki)
+    
+    return tks
 
 client = MongoClient()
 db = client["bse"]
