@@ -45,3 +45,10 @@ def format_date(ddmmyy: str):
 def format_date(ddmmyy: int):
     ddmmyy = str(ddmmyy)
     return f"{ddmmyy[:2]}/{ddmmyy[2:4]}/20{ddmmyy[4:]}"
+
+def is_greater_date(ddmmyy1, ddmmyy2):
+    d1 = list(format_date(ddmmyy1).split("/"))
+    d2 = list(format_date(ddmmyy2).split("/"))
+    if (d1[2] > d2[2]) or (d1[2] == d2[2] and d1[1] > d2[1]) or (d1[2] == d2[2] and d1[1] == d2[1] and d1[0] > d2[0]):
+        return True
+    return False
