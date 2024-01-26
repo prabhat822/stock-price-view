@@ -87,6 +87,7 @@ def search_by_name(name):
     search = metadata_collection.find({"$text": {"$search": name}})
     results = []
     for result in search:
+        result.pop("_id")
         results.append(result)
     
     return results
