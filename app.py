@@ -1,10 +1,18 @@
 from fastapi import FastAPI
 from preset import preset
-from db import get_top_k, get_favourites, add_favourite, remove_favourite
+from db import get_top_k, get_favourites, add_favourite, remove_favourite, search_by_name
 import uvicorn
 
 
 app = FastAPI()
+
+@app.get("/")
+def root():
+    return {"message": "Hello World"}
+
+@app.get("/search/{name}")
+def search(name: str):
+    return search_by_name(name)
 
 @app.get("/get_top_k/{k}")
 def get_tops(k: int):
