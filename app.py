@@ -40,4 +40,4 @@ def get_history(stock_code: int):
 
 if __name__ == "__main__":
     preset(days=50, refresh=False)
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("app:app", host="localhost", port=8000, reload=True)
