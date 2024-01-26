@@ -87,4 +87,10 @@ curl -X GET http://localhost:8000/get_price_history/<stock_code>
 ## Other Details
 
 - The app runs the _**preset**_ script and then start _**API**_.
-- The DB can be refreshed by changing the _**refresh**_ variable in _**app.py**_ (line no. 42) to _**True**_.
+- It download and stores past 50 days data (excluding weekends) of all the stocks in the database for the first time only, later it only updates the database with the latest data.
+- The DB can be refreshed by changing the _**refresh**_ variable in _**app.py**_ (line no. **42**) to _**True**_.
+
+    ```python
+    if __name__ == "__main__":
+        preset(days=50, refresh=True)
+    ```
