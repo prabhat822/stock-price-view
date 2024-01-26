@@ -82,7 +82,16 @@ def get_top_k(k):
     
     return tks
 
+def search_by_name(name):
+    search = metadata_collection.find({"$text": {"$search": name}})
+    results = []
+    for result in search:
+        results.append(result)
+    
+    return results
+
 client = MongoClient()
 db = client["bse"]
 db_metadata = client["bse_metadata"]
 metadata_collection = db_metadata["metadata"]
+metadata_collection.create_index([('name', 'text')])
