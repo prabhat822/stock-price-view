@@ -1,6 +1,7 @@
 import pandas as pd
 from pymongo import MongoClient
 from data_processing import is_greater_date
+from datetime import datetime
 
 
 def load_csv_by_date(ddmmyy):
@@ -111,6 +112,29 @@ def get_favourites():
         favs.append(f)
     
     return favs
+
+def get_price_history(stock_code):
+    collects = db.list_collection_names()
+    days = [s[2:] for s in collects]
+    days_objects = [datetime.strptime(day, "%d%m%y") for day in days]
+    sorted_days_objects = sorted(days_objects)
+    sorted_days = [day_obj.strftime("%d%m%y") for day_obj in sorted_days_objects]
+    
+    days = []
+    prices = []
+    for day in sorted_days:
+        eq_ = db[f'EQ{day}']
+        stock = eq_.find_one({"code": stock_code})
+        if stock:
+            days.append(day)
+            prices.append(stock["close"])
+    
+    data = {
+        "days": days,
+        "prices": prices
+    }
+    
+    return data
 
 
 client = MongoClient()
