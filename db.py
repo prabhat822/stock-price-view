@@ -99,7 +99,8 @@ def add_favourite(stock_code):
     exists = favourites_collection.count_documents({"code": stock_code}) > 0
     if not exists:
         stock = get_by_code(stock_code)
-        favourites_collection.insert_one(stock)
+        if stock:
+            favourites_collection.insert_one(stock)
 
 def remove_favourite(stock_code):
     exists = favourites_collection.count_documents({"code": stock_code}) > 0
