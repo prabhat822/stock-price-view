@@ -16,6 +16,8 @@ git clone https://github.com/<username>/stock-price-view.git
 
 ### 2. Initialize Python Virtual Environment
 
+Make sure Python virtual environment ([virtualenv](https://pypi.org/project/virtualenv/)) is installed.
+
 ```bash
 python -m venv env
 ```
