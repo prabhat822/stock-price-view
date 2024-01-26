@@ -19,9 +19,10 @@ def last_k_days(k):
     
     return dates
 
-def load_k_days(k):
+def load_k_days(k, refresh=False):
     dates = last_k_days(k)
     
+    if refresh: cleae_db()
     for ddmmyy in dates:
         formatted_date = format_date(ddmmyy)
         
@@ -35,4 +36,7 @@ def load_k_days(k):
     
     close_mongo()
 
-load_k_days(50)
+
+if __name__ == "__main__":
+    generate_dir()
+    load_k_days(50)
