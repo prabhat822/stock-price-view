@@ -29,8 +29,9 @@ def store_data(ddmmyy):
     
     collection.insert_many(datas)
 
-    for data in datas: 
-        update_metadata_one(data, ddmmyy)
+    # for data in datas: 
+    #     update_metadata_one(data, ddmmyy)
+    update_metadata(datas, ddmmyy)
 
 def remove_data(ddmmyy):
     collection = db[f"EQ{ddmmyy}"]
@@ -69,6 +70,47 @@ def update_metadata_one(data, ddmmyy):
         elif is_greater_date(first, ddmmyy):
             pnl = ((stock["latest_close"] - data["close"]) / data["close"]) * 100
             metadata_collection.update_one({"code": CODE}, {"$set": {"first": ddmmyy, "first_close": data["close"], "pnl": pnl}})
+
+def update_metadata(datas, ddmmyy):
+    stocks = metadata_collection.find({})
+    stock_dict = dict()
+    for stock in stocks:
+        stock.pop("_id")
+        stock_dict[stock["code"]] = stock
+    
+    for data in datas:
+        CODE = data["code"]
+        if CODE in stock_dict:
+            stock = stock_dict[CODE]
+            latest = stock["latest"]
+            first = stock["first"]
+            if is_greater_date(ddmmyy, latest):
+                pnl = ((data["close"] - stock["first_close"]) / stock["first_close"]) * 100
+                stock["latest"] = ddmmyy
+                stock["latest_close"] = data["close"]
+                stock["pnl"] = pnl
+            elif is_greater_date(first, ddmmyy):
+                pnl = ((stock["latest_close"] - data["close"]) / data["close"]) * 100
+                stock["first"] = ddmmyy
+                stock["first_close"] = data["close"]
+                stock["pnl"] = pnl
+            
+            stock_dict[CODE] = stock
+        else:
+            stock = {
+                "code": CODE,
+                "name": data["name"],
+                "latest": ddmmyy,
+                "latest_close": data["close"],
+                "first": ddmmyy,
+                "first_close": data["close"],
+                "pnl": 0,
+            }
+            
+            stock_dict[CODE] = stock
+    
+    metadata_collection.drop()
+    metadata_collection.insert_many(stock_dict.values())
 
 def get_top_k(k):
     top_ks = metadata_collection.find().sort("pnl", -1).limit(k)
