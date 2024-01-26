@@ -137,8 +137,9 @@ def get_price_history(stock_code):
     return data
 
 def clean_db():
-    db_metadata.drop()
-    db.drop()
+    client.drop_database("bse")
+    client.drop_database("bse_metadata")
+    
     db = client["bse"]
     db_metadata = client["bse_metadata"]
     metadata_collection = db_metadata["metadata"]

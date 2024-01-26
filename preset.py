@@ -22,7 +22,7 @@ def last_k_days(k):
 def load_k_days(k, refresh=False):
     dates = last_k_days(k)
     
-    if refresh: cleae_db()
+    if refresh: clean_db()
     for ddmmyy in dates:
         formatted_date = format_date(ddmmyy)
         
@@ -33,8 +33,6 @@ def load_k_days(k, refresh=False):
         if data_exists(ddmmyy) and not data_exists_db(ddmmyy): 
             store_data(ddmmyy)
             print(f"Stored [Day: {formatted_date}]")
-    
-    close_mongo()
 
 def preset(days=50, refresh=False):
     generate_dir()
