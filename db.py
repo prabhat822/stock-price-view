@@ -90,8 +90,32 @@ def search_by_name(name):
     
     return results
 
+def get_by_code(code):
+    stock = metadata_collection.find_one({"code": code})
+    return stock
+
+def add_favourite(stock_code):
+    exists = favourites_collection.count_documents({"code": stock_code}) > 0
+    if not exists:
+        stock = get_by_code(stock_code)
+        favourites_collection.insert_one(stock)
+
+def remove_favourite(stock_code):
+    exists = favourites_collection.count_documents({"code": stock_code}) > 0
+    if exists:
+        favourites_collection.delete_one({"code": stock_code})
+
+def get_favourites():
+    favs = []
+    for f in favourites_collection.find({}):
+        favs.append(f)
+    
+    return favs
+
+
 client = MongoClient()
 db = client["bse"]
 db_metadata = client["bse_metadata"]
 metadata_collection = db_metadata["metadata"]
 metadata_collection.create_index([('name', 'text')])
+favourites_collection = db_metadata["faviourites"]
