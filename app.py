@@ -2,9 +2,17 @@ from fastapi import FastAPI
 from preset import preset
 from db import get_top_k, get_favourites, add_favourite, remove_favourite, search_by_name, get_price_history
 import uvicorn
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def root():
