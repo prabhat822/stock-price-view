@@ -36,7 +36,6 @@ def load_k_days(k, refresh=False):
     
     close_mongo()
 
-
-if __name__ == "__main__":
+def preset(days=50, refresh=False):
     generate_dir()
-    load_k_days(50)
+    load_k_days(days, refresh)
