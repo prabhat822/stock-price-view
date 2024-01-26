@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from preset import preset
-from db import get_top_k, get_favourites, add_favourite, remove_favourite, search_by_name
+from db import get_top_k, get_favourites, add_favourite, remove_favourite, search_by_name, get_price_history
 import uvicorn
 
 
@@ -32,6 +32,10 @@ def add_fav(stock_code: int):
 def remove_fav(stock_code: int):
     remove_favourite(stock_code)
     return {"message": "Removed from favourites"}
+
+@app.get("/get_price_history/{stock_code}")
+def get_history(stock_code: int):
+    return get_price_history(stock_code)
 
 
 if __name__ == "__main__":
