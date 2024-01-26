@@ -110,6 +110,7 @@ def remove_favourite(stock_code):
 def get_favourites():
     favs = []
     for f in favourites_collection.find({}):
+        f.pop("_id")
         favs.append(f)
     
     return favs

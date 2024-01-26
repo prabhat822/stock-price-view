@@ -12,7 +12,8 @@ def get_tops(k: int):
 
 @app.get("/get_favourites")
 def get_favs():
-    return get_favourites()
+    favs = get_favourites()
+    return favs
 
 @app.post("/add_favourite/{stock_code}")
 def add_fav(stock_code: int):
