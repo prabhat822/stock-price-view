@@ -40,13 +40,17 @@ python app.py
 
 ## API Endpoints
 
-### 1. Get Top <i>k</i> Stocks
+### 1. Get Top _**k**_ Stocks
+
+Top stocks are the stocks with highest growth rate considering the oldest date in the database as the base date.
 
 ```bash
 curl -X GET http://localhost:8000/get_top_k/<k>
 ```
 
 ### 2. Search Stock by Name
+
+It searches for the stock by name and returns the stock with _**stock code**_, _**stock name**_, _**pnl**_ & other details.
 
 ```bash
 curl -X GET http://localhost:8000/search/<name>
@@ -72,10 +76,13 @@ curl -X DELETE http://localhost:8000/remove_favorite/<stock_code>
 
 ### 6. Get Stock Price History
 
+It returns the price history of the stock in the database. It returns a json object with two keys: _**days**_ & _**prices**_, where _days_ is a list of dates in _**ddmmyy**_ format in sorted order and _**prices**_ is a list of prices corresponding to the dates in _**days**_.
+
 ```bash
 curl -X GET http://localhost:8000/get_price_history/<stock_code>
 ```
 
 ## Other Details
 
-- 
+- The app runs the _**preset**_ script and then start _**API**_.
+- The DB can be refreshed by changing the _**refresh**_ variable in _**app.py**_ (line no. 42) to _**True**_.
