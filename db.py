@@ -136,6 +136,15 @@ def get_price_history(stock_code):
     
     return data
 
+def cleae_db():
+    db_metadata.drop()
+    db.drop()
+    db = client["bse"]
+    db_metadata = client["bse_metadata"]
+    metadata_collection = db_metadata["metadata"]
+    metadata_collection.create_index([('name', 'text')])
+    favourites_collection = db_metadata["faviourites"]
+
 
 client = MongoClient()
 db = client["bse"]
