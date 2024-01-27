@@ -3,6 +3,8 @@ from preset import preset
 from db import get_top_k, get_favourites, add_favourite, remove_favourite, search_by_name, get_price_history
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
+from chart_server import start_chart_ui
+import threading
 
 
 app = FastAPI()
@@ -45,7 +47,15 @@ def remove_fav(stock_code: int):
 def get_history(stock_code: int):
     return get_price_history(stock_code)
 
+def run_api_server():
+    uvicorn.run("app:app", host="localhost", port=8000, reload=True)
+
+def run_chart_ui():
+    start_chart_ui("localhost", 8001)
 
 if __name__ == "__main__":
     preset(days=50, refresh=False)
-    uvicorn.run("app:app", host="localhost", port=8000, reload=True)
+    thread1 = threading.Thread(target=run_chart_ui)
+    thread1.start()
+    run_api_server()
+    thread1.join()

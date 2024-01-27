@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        text-align: center;
+      }
+      .centered-div {
+        width: 50%; /* You can adjust the width as needed */
+        margin: 0 auto; /* Set left and right margins to 'auto' */
+        text-align: center; /* Optional: Center-align text inside the div */
+        border: 1px solid #ccc; /* Optional: Add a border for better visibility */
+        padding: 20px; /* Optional: Add padding for better appearance */
+      }
+    </style>
+    <title>Centered Body</title>
+  </head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <body>
+    <h2>Show Chart by Stock Code</h2>
+    <br />
+    <input type="text" id="stock_code" value="" />
+    <button onclick="call_api(document.getElementById('stock_code').value)">
+      Show</button
+    ><br /><br />
+
+    <div class="centered-div">
+      <canvas id="myChart" style="width: 100%; max-width: 800px"></canvas>
+    </div>
+
+    <script>
+      function setChart(xValues, yValues) {
+        console.log(xValues);
+        console.log(yValues);
+        new Chart("myChart", {
+          type: "line",
+          data: {
+            labels: xValues,
+            datasets: [
+              {
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(0,0,255,1.0)",
+                borderColor: "rgba(0,0,255,0.1)",
+                data: yValues,
+              },
+            ],
+          },
+          options: {
+            legend: { display: false },
+            scales: {
+              // yAxes: [{ticks: {min: 0, max:16}}],
+            },
+          },
+        });
+      }
+
+      function call_api(stock_code) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200)
+            setChart(
+              JSON.parse(this.responseText).days,
+              JSON.parse(this.responseText).prices
+            );
+        };
+        xhttp.open(
+          "GET",
+          "http://localhost:8000/get_price_history/" + stock_code,
+          true
+        );
+        xhttp.send();
+      }
+
+      call_api("500003");
+    </script>
+  </body>
+</html>
