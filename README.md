@@ -84,6 +84,18 @@ It returns the price history of the stock in the database. It returns a json obj
 curl -X GET http://localhost:8000/get_price_history/<stock_code>
 ```
 
+## Chart UI
+
+See the **Chart UI** at
+
+```url
+http://localhost:8001/chart.html
+```
+
+![Chart](./chart.png)
+
+Here you can see the price chart by putting the stock code in the input field.
+
 ## Other Details
 
 - The app runs the _**preset**_ script and then start _**API**_.
