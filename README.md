@@ -11,7 +11,7 @@
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<username>/stock-price-view.git
+git clone https://github.com/prabhat822/stock-price-view.git
 ```
 
 ### 2. Initialize Python Virtual Environment
